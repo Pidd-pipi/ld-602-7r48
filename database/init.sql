@@ -54,11 +54,33 @@ CREATE TABLE IF NOT EXISTS dispatch_order (
   dispatched_at TEXT
 );
 
+CREATE TABLE IF NOT EXISTS stocktake_order (
+  id INTEGER PRIMARY KEY,
+  batch_id INTEGER,
+  book_quantity INTEGER,
+  actual_quantity INTEGER,
+  variance_quantity INTEGER,
+  variance TEXT,
+  status TEXT,
+  reason TEXT,
+  submitted_by TEXT,
+  submitted_at TEXT,
+  reviewed_by TEXT,
+  review_note TEXT,
+  reviewed_at TEXT
+);
+
+-- 同一批次同时只能有一张待审盘点（PENDING 唯一，APPROVED / REJECTED 不占位）。
+CREATE UNIQUE INDEX IF NOT EXISTS uq_stocktake_pending_batch
+  ON stocktake_order (batch_id)
+  WHERE status = 'PENDING';
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id INTEGER PRIMARY KEY,
   actor TEXT,
   action TEXT,
   target_type TEXT,
   target_id TEXT,
+  detail TEXT,
   created_at TEXT
 );

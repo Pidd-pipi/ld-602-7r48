@@ -68,31 +68,41 @@ export const mockData = {
       "id": 1,
       "warehouse_id": 1,
       "supply_item_id": 1,
-      "batch_no": "batch no 1",
-      "quantity": 92,
-      "expire_at": "2026-06-11T09:00:00Z",
-      "inbound_source": "inbound source 1",
-      "quality_status": "SUBMITTED"
+      "batch_no": "W2026-0511-瓶装水",
+      "quantity": 120,
+      "expire_at": "2027-06-11T09:00:00Z",
+      "inbound_source": "市级应急采购入库",
+      "quality_status": "NORMAL"
     },
     {
       "id": 2,
-      "warehouse_id": 2,
+      "warehouse_id": 1,
       "supply_item_id": 2,
-      "batch_no": "batch no 2",
-      "quantity": 104,
-      "expire_at": "2026-06-12T09:00:00Z",
-      "inbound_source": "inbound source 2",
-      "quality_status": "APPROVED"
+      "batch_no": "W2026-0302-急救包",
+      "quantity": 60,
+      "expire_at": "2027-03-02T09:00:00Z",
+      "inbound_source": "红十字会捐赠入库",
+      "quality_status": "FROZEN"
     },
     {
       "id": 3,
-      "warehouse_id": 3,
+      "warehouse_id": 2,
+      "supply_item_id": 1,
+      "batch_no": "W2025-1201-瓶装水",
+      "quantity": 80,
+      "expire_at": "2026-01-15T09:00:00Z",
+      "inbound_source": "区级应急采购入库",
+      "quality_status": "EXPIRED"
+    },
+    {
+      "id": 4,
+      "warehouse_id": 2,
       "supply_item_id": 3,
-      "batch_no": "batch no 3",
-      "quantity": 116,
-      "expire_at": "2026-06-13T09:00:00Z",
-      "inbound_source": "inbound source 3",
-      "quality_status": "DRAFT"
+      "batch_no": "W2026-0820-折叠床",
+      "quantity": 40,
+      "expire_at": "2028-08-20T09:00:00Z",
+      "inbound_source": "街道自购入库",
+      "quality_status": "NORMAL"
     }
   ],
   "shelter": [
@@ -161,5 +171,6 @@ export const mockData = {
       "approved_by": "approved by 3",
       "dispatched_at": "2026-06-13T09:00:00Z"
     }
-  ]
+  ],
+  "stocktakeOrder": []
 } as const;

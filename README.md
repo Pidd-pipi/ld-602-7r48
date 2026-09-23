@@ -57,6 +57,22 @@ backend/src/routes, controllers, services, models, repositories, middlewares, co
 - SupplyCategory: constants/SupplyCategory、types/SupplyCategory、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
 - DispatchStatus: constants/DispatchStatus、types/DispatchStatus、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
 - ShelterStatus: constants/ShelterStatus、types/ShelterStatus、constructors、logTemplates、errorMessages、筛选器、展示组件/控制器均有引用。
+- StocktakeStatus（PENDING/APPROVED/REJECTED，盘点差异复核）:
+  - 后端：`constants/StocktakeStatus.java`、`models/StocktakeOrder.java`、`repositories/StocktakeOrderRepository.java`（CAS 状态流转）、`services/StocktakeOrderService.java`、`controllers/StocktakeOrderController.java`、`constructors/StocktakeOrderDtoFactory.java`、`constants/LogTemplates.java`、`constants/ErrorCodes.java`、`constants/ErrorMessages.java`、`routes/StocktakeOrderRoutes.java`。
+  - 前端：`constants/StocktakeStatus.ts`、`types/StocktakeOrder.ts`、`constructors/StocktakeOrderConstructor.ts`、`constants/logTemplates.ts`、`constants/errorCodes.ts`、`constants/errorMessages.ts`、`constants/statusText.ts`、`utils/formatters.ts`、`api/StocktakeOrder.ts`、`stores/StocktakeOrderStore.ts`、`hooks/useStocktakeReview.ts`、`components/common/StocktakeReviewPanel.vue`、`pages/WarehousesPage.vue`。
+- StocktakeVariance（SURPLUS/LOSS/MATCH）: 后端 `constants/StocktakeVariance.java`（服务判定盘盈盘亏）、前端 `constants/StocktakeVariance.ts` + `utils/formatters.ts`（差异文案/符号）+ 盘点弹窗与复核面板。
+- QualityStatus（NORMAL/FROZEN/EXPIRED）: 后端 `constants/QualityStatus.java`（盘盈回补拦截）、`models/InventoryBatch.java`、`repositories/InventoryBatchRepository.java` 种子；前端 `constants/QualityStatus.ts`、`mocks/seedData.ts`、`components/common/BatchTable.vue`、`StocktakeFormDialog.vue`。
+
+## 库存批次盘点差异复核
+
+库存页（`/warehouses`）端到端规则：
+
+1. 仓库员在批次行点击「发起盘点」，录入实盘数。盘盈 / 盘亏必须分别写明依据（数量一致不强制），提交后差异保留为 `PENDING` 待审单，**批次数量不变**。
+2. 盘盈（实盘 > 账面）不得回补**质检冻结（FROZEN）或已过期（EXPIRED，含到期时间已过）**批次，提交直接返回 409 `STOCKTAKE_SURPLUS_FORBIDDEN`；盘亏可照常提交。
+3. 同一批次同时只能有一张待审盘点：重复提交返回 409 `STOCKTAKE_PENDING_EXISTS`。
+4. 审批员在「盘点差异复核」面板填写复核意见后通过 / 驳回；**仅审批通过**才在同一临界区内把批次数量条件调整为实盘数（账面须仍等于提交时快照），驳回保持账面不变。
+5. 重复审批 / 并发审批只有一次成功（盘点单 PENDING→终态 CAS + 批次数量 CAS + 批次锁），失败者返回 409 `STOCKTAKE_NOT_PENDING`，批次与盘点单均不变。
+6. 接口：`POST /api/stocktake-order/submit`、`GET /api/stocktake-order?batchId=`、`GET /api/stocktake-order/{id}`、`POST /api/stocktake-order/{id}/review`。前端在后端不可达时用 localStorage 执行同一套规则兜底，刷新后仍可回读。
 
 ## 为什么会牵一发动全身
 
