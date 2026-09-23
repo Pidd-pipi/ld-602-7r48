@@ -68,31 +68,50 @@ export const mockData = {
       "id": 1,
       "warehouse_id": 1,
       "supply_item_id": 1,
-      "batch_no": "batch no 1",
-      "quantity": 92,
-      "expire_at": "2026-06-11T09:00:00Z",
-      "inbound_source": "inbound source 1",
-      "quality_status": "SUBMITTED"
+      "batch_no": "W-2026-031",
+      "quantity": 100,
+      "expire_at": "2027-03-22",
+      "inbound_source": "市级采购入库",
+      "quality_status": "QUALIFIED"
     },
     {
       "id": 2,
-      "warehouse_id": 2,
+      "warehouse_id": 1,
       "supply_item_id": 2,
-      "batch_no": "batch no 2",
-      "quantity": 104,
-      "expire_at": "2026-06-12T09:00:00Z",
-      "inbound_source": "inbound source 2",
-      "quality_status": "APPROVED"
+      "batch_no": "M-2025-118",
+      "quantity": 80,
+      "expire_at": "2026-09-13",
+      "inbound_source": "区级调拨入库",
+      "quality_status": "QUALIFIED"
     },
     {
       "id": 3,
-      "warehouse_id": 3,
+      "warehouse_id": 2,
       "supply_item_id": 3,
-      "batch_no": "batch no 3",
-      "quantity": 116,
-      "expire_at": "2026-06-13T09:00:00Z",
-      "inbound_source": "inbound source 3",
-      "quality_status": "DRAFT"
+      "batch_no": "M-2026-007",
+      "quantity": 50,
+      "expire_at": "2026-11-22",
+      "inbound_source": "社会捐赠入库",
+      "quality_status": "FROZEN"
+    }
+  ],
+  "stockCheck": [
+    {
+      "id": 1,
+      "batch_id": 1,
+      "snapshot_quantity": 100,
+      "actual_quantity": 96,
+      "variance": -4,
+      "variance_type": "LOSS",
+      "loss_basis": "搬运破损 3 箱、抽检留样 1 箱",
+      "status": "PENDING",
+      "submitted_by": "赵仓库",
+      "submitted_at": "2026-09-22T10:00:00",
+      "batch_no": "W-2026-031",
+      "warehouse_id": 1,
+      "warehouse_name": "name 1",
+      "supply_item_name": "name 1",
+      "current_quantity": 100
     }
   ],
   "shelter": [

@@ -27,6 +27,7 @@ services:
       - .env
     environment:
       PORT: 8080
+      SPRING_PROFILES_ACTIVE: mysql
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: ${DB_NAME:-app_db}

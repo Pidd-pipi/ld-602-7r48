@@ -1,1 +1,10 @@
-package com.generated.rescueStock.repositories; import java.util.*; import org.springframework.stereotype.Repository; @Repository public class InventoryBatchRepository { public List<Map<String,Object>> findAll(){ return List.of(Map.of("id",1,"name","库存批次","status","READY")); } }
+package com.generated.rescueStock.repositories;
+
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.generated.rescueStock.models.InventoryBatch;
+
+public interface InventoryBatchRepository extends JpaRepository<InventoryBatch, Long> {
+  List<InventoryBatch> findByWarehouseIdOrderByIdAsc(Long warehouseId);
+  List<InventoryBatch> findAllByOrderByIdAsc();
+}

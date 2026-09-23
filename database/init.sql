@@ -31,6 +31,29 @@ CREATE TABLE IF NOT EXISTS inventory_batch (
   quality_status TEXT
 );
 
+CREATE TABLE IF NOT EXISTS stock_check (
+  id INTEGER PRIMARY KEY,
+  batch_id INTEGER NOT NULL,
+  snapshot_quantity INTEGER NOT NULL,
+  actual_quantity INTEGER NOT NULL,
+  variance INTEGER NOT NULL,
+  variance_type TEXT NOT NULL,
+  gain_basis TEXT,
+  loss_basis TEXT,
+  status TEXT NOT NULL,
+  submitted_by TEXT,
+  submitted_at TEXT,
+  reviewed_by TEXT,
+  reviewed_at TEXT,
+  review_comment TEXT,
+  pending_batch_id INTEGER,
+  created_at TEXT
+);
+
+-- 同一批次同时只能有一张待审盘点：NULL 不参与唯一约束，审批/驳回后置空即可重新发起
+CREATE UNIQUE INDEX IF NOT EXISTS uk_stock_check_pending_batch
+  ON stock_check (pending_batch_id);
+
 CREATE TABLE IF NOT EXISTS shelter (
   id INTEGER PRIMARY KEY,
   name TEXT,

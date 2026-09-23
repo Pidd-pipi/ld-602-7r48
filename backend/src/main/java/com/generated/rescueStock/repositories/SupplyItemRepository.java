@@ -1,1 +1,7 @@
-package com.generated.rescueStock.repositories; import java.util.*; import org.springframework.stereotype.Repository; @Repository public class SupplyItemRepository { public List<Map<String,Object>> findAll(){ return List.of(Map.of("id",1,"name","应急物资","status","READY")); } }
+package com.generated.rescueStock.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.generated.rescueStock.models.SupplyItem;
+
+public interface SupplyItemRepository extends JpaRepository<SupplyItem, Long> {
+}
